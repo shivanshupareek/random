@@ -4,6 +4,8 @@ export default function UserSearch () {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [inputValue, setInputValue] = useState('');
+    const [searchFilter, setSearchFilter] = useState('');
 
     useEffect(() => {
         const userAPI = async () => {
@@ -13,19 +15,29 @@ export default function UserSearch () {
                 const URL = "https://jsonplaceholder.typicode.com/users";
                 const res = await fetch(URL);
 
-                if (!res.ok) return 'could not fetch users';
+                if (!res.ok) {
+                    setError("could not fetch data");
+                    return;
+                }
 
                 const data = await res.json();
                 setUsers(data);
-                console.log(setUsers);
+                console.log(data);
             } catch ( e ) {
                 setError(e.message);
             } finally {
                 setLoading(false);
             }
         };
-        userAPI();
-    }, [users]);
+        void userAPI();
+    }, []);
+
+    function handleInput (e) {
+        setInputValue(e.target.value);
+
+        const filteredSearch = data.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()));
+        setSearchFilter(filteredSearch);
+    }
 
     if (loading) return <div>fetching users...</div>;
     if (error) return <div>{error}</div>;
@@ -35,6 +47,20 @@ export default function UserSearch () {
             <div>
                 <h1>Hello world!</h1>
             </div>
+            <section>
+                <form>
+                    <fieldset>
+                        <legend>user search</legend>
+                        <input
+                            type={"text"}
+                            title={"user search"}
+                            placeholder={'search user'}
+                            value={inputValue}
+                            onChange={handleInput}
+                        />
+                    </fieldset>
+                </form>
+            </section>
         </>
     )
 }
