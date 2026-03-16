@@ -1,11 +1,12 @@
-// import { useState } from 'react'
+// import * from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from './assets/vite.svg'
 // import heroImg from './assets/hero.png'
-import AIEyeIcon from './assets/Animated icon - tsx/AIEyeIcon.tsx'
-import AstronautIcon from './assets/Animated icon - tsx/AstronautIcon.tsx'
-import './App.css'
+import AIEyeIcon from './assets/Animated icon - tsx/AIEyeIcon.tsx';
+import AstronautIcon from './assets/Animated icon - tsx/AstronautIcon.tsx';
+import './App.css';
 import Counter from "./Counter.jsx";
+import UserSearch from "./UserSearch.jsx";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -14,7 +15,11 @@ function App() {
     <>
         <AIEyeIcon size={48} />
         <AstronautIcon size={48} />
-      <Counter />
+        <Counter />
+        <br/>
+        <hr/>
+        <br/>
+        <UserSearch />
 
       {/*<section id="center">*/}
       {/*  <div className="hero">*/}
