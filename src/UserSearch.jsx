@@ -32,10 +32,11 @@ export default function UserSearch () {
         void userAPI();
     }, []);
 
+
     function handleInput (e) {
         setInputValue(e.target.value);
 
-        const filteredSearch = data.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()));
+        const filteredSearch = users.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()));
         setSearchFilter(filteredSearch);
     }
 
@@ -57,7 +58,14 @@ export default function UserSearch () {
                             placeholder={'search user'}
                             value={inputValue}
                             onChange={handleInput}
+                            list={'filteredQueryList'}
                         />
+                        {searchFilter.length > 0 ? searchFilter.map((results) => {
+                           return <datalist id={'filteredQueryList'}>
+                               <option value={results.name} key={results.id}/>
+                           </datalist>
+                        }): ''}
+
                     </fieldset>
                 </form>
             </section>
