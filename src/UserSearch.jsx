@@ -5,7 +5,7 @@ export default function UserSearch () {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [inputValue, setInputValue] = useState('');
-    const [searchFilter, setSearchFilter] = useState('');
+    const [searchFilter, setSearchFilter] = useState([]);
 
     useEffect(() => {
         const userAPI = async () => {
@@ -22,7 +22,6 @@ export default function UserSearch () {
 
                 const data = await res.json();
                 setUsers(data);
-                console.log(data);
             } catch ( e ) {
                 setError(e.message);
             } finally {
@@ -36,7 +35,8 @@ export default function UserSearch () {
     function handleInput (e) {
         setInputValue(e.target.value);
 
-        const filteredSearch = users.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()));
+        const filteredSearch =
+            users.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()));
         setSearchFilter(filteredSearch);
     }
 
@@ -60,12 +60,11 @@ export default function UserSearch () {
                             onChange={handleInput}
                             list={'filteredQueryList'}
                         />
-                        {searchFilter.length > 0 ? searchFilter.map((results) => {
-                           return <datalist id={'filteredQueryList'}>
-                               <option value={results.name} key={results.id}/>
-                           </datalist>
-                        }): ''}
-
+                        <datalist id={'filteredQueryList'}>
+                            {searchFilter.map((result) => (
+                                <option key={result.id} value={result.name} />
+                            ))}
+                        </datalist>
                     </fieldset>
                 </form>
             </section>
