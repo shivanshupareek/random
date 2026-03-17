@@ -5,7 +5,6 @@ export default function UserSearch () {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [inputValue, setInputValue] = useState('');
-    const [searchFilter, setSearchFilter] = useState([]);
 
     useEffect(() => {
         const userAPI = async () => {
@@ -31,14 +30,8 @@ export default function UserSearch () {
         void userAPI();
     }, []);
 
-
-    function handleInput (e) {
-        setInputValue(e.target.value);
-
-        const filteredSearch =
-            users.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()));
-        setSearchFilter(filteredSearch);
-    }
+    const filteredSearch =
+        users.filter((user) => user.name.toLowerCase().includes(inputValue.toLowerCase()));
 
     if (loading) return <div>fetching users...</div>;
     if (error) return <div>{error}</div>;
@@ -57,14 +50,21 @@ export default function UserSearch () {
                             title={"user search"}
                             placeholder={'search user'}
                             value={inputValue}
-                            onChange={handleInput}
+                            onChange={(e) => setInputValue(e.target.value)}
                             list={'filteredQueryList'}
                         />
-                        <datalist id={'filteredQueryList'}>
-                            {searchFilter.map((result) => (
-                                <option key={result.id} value={result.name} />
-                            ))}
-                        </datalist>
+
+                        {filteredSearch.length === 0 ? (
+                            <p>No users found</p>
+                            ) : (
+                                <ul>
+                                    {filteredSearch.map((results) => (
+                                        <li key={results.id}>{results.name}</li>
+                                    ))}
+                                </ul>
+                             )
+                        }
+
                     </fieldset>
                 </form>
             </section>
